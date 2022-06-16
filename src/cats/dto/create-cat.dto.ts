@@ -1,5 +1,6 @@
 import { IsString, IsInt } from 'class-validator';
 
+
 export class CreateCatDto {
   id: number;
 

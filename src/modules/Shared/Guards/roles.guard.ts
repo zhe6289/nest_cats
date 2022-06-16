@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const user = { "account": "Ted", "roles": ["admin"] }
-    console.log(`User Roles: ${user}`, `Api Roles: ${roles}`)
+    console.log(`User Roles: ${user.roles}`, `Api Roles: ${roles}`)
     const hasRole = () => !!user.roles.find((role) => !!roles.find((item) => item === role));
     return user && user.roles && hasRole();
   }

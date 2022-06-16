@@ -17,6 +17,7 @@ export class CatsController {
   }
 
   @Get('')
+  @Roles('admin')
   async findAll(): Promise<Cat[]> {
     // throw new HttpException({
     //   status: HttpStatus.FORBIDDEN,
@@ -26,7 +27,9 @@ export class CatsController {
   }
 
   @Get(':id')
+  @Roles('admin')
   async findCat( @Response() res, @Param('id') id) {
+    console.log(id)
     //+id ，+符號可以直接把string 轉換成number
     this.catsService.findCat(id)
         .then((cats) => {
