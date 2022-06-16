@@ -1,13 +1,17 @@
-import { Controller, Get, Post, Body, Param, Response, ParseIntPipe, HttpException, HttpStatus, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Response, ParseIntPipe, HttpException, HttpStatus, ValidationPipe, UseGuards } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
 import { CatsService } from './cats.service';
 import { Cat } from './interfaces/cat.interface';
+import { RolesGuard } from '../modules/Shared/Guards/roles.guard'
+import { Roles } from 'src/modules/Shared/Decorators/roles.decorator';
 
 @Controller('cats')
+@UseGuards(RolesGuard)
 export class CatsController {
   constructor(private catsService: CatsService) {}
 
   @Post()
+  @Roles('admin')
   async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
     this.catsService.create(createCatDto);
   }
@@ -22,7 +26,7 @@ export class CatsController {
   }
 
   @Get(':id')
-  findCat( @Response() res, @Param('id') id) {
+  async findCat( @Response() res, @Param('id') id) {
     //+id ，+符號可以直接把string 轉換成number
     this.catsService.findCat(id)
         .then((cats) => {
