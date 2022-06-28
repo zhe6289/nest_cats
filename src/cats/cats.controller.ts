@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body, Param, Response, ParseIntPipe, HttpException, HttpStatus, ValidationPipe, UseGuards, UseInterceptors } from '@nestjs/common';
 import { CreateCatDto } from './dto/create-cat.dto';
+import { FindCatDto } from './dto/find-cat.dto';
 import { CatsService } from './cats.service';
 import { RolesGuard } from '../modules/Shared/Guards/roles.guard'
 import { Roles } from '../modules/Shared/Decorators/roles.decorator';
@@ -25,24 +26,13 @@ export class CatsController {
   }
 
   @Get('')
-  @Roles('admin')
+  @Roles('admin', 'general')
   async findAll() {
-    // throw new HttpException({
-    //   status: HttpStatus.FORBIDDEN,
-    //   error: 'This is a custom message',
-    // }, HttpStatus.FORBIDDEN);
     return this.catsService.findAll();
   }
 
-
-  // @Post()
-  // @Roles('admin')
-  // async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
-  //   this.catsService.create(createCatDto);
-  // }
-
   @Get(':id')
-  @Roles('admin')
+  @Roles('admin', 'general')
   async findCat( @Response() res, @Param('id') id) {
     //+id ，+符號可以直接把string 轉換成number
     this.catsService.findCat(id)
@@ -53,5 +43,17 @@ export class CatsController {
           console.error(error);
           res.status(HttpStatus.INTERNAL_SERVER_ERROR);
         })
-    }  
+    }
+
+  @Post('/findCat')
+  @Roles('admin', 'general')
+  async findCatPost(@Body() body: FindCatDto) {
+    return await this.catsService.findCatByBreed(body);
+  }
+
+  @Post('/removeCat')
+  @Roles('admin')
+  async removeCat(@Body(new ValidationPipe()) body: string) {
+    return await this.catsService.removeCat(body)
+  }
 }

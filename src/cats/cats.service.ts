@@ -29,12 +29,50 @@ export class CatsService {
   }
 
   async findCat(id: string) {
-    const keyword = id
-    const reg = new RegExp(keyword, 'i')
+    const reg = new RegExp(id, 'i')
     const cat =  this.cats.find({ breed: reg })
     if (!cat) {
       throw new HttpException("Cats not found", 404);
     }
     return cat
+  }
+
+  async findCatByBreed(body) {
+    if (!body.breed) throw new HttpException("Wrong parameter", 404);
+    let data = {}
+    const reg = new RegExp(body.breed, 'i')
+    try {
+      const resp =  await this.cats.find({ breed: reg })
+      data['status'] = 0
+      if (resp && resp.length > 0) {
+        data['data'] = resp
+        data['message'] = 'Find successful'
+      } else {
+        data['message'] = 'Cat not found'
+      }      
+      data['status'] = 0
+    } catch (error) {
+      data['status'] = 1
+      data['message'] = error
+    }
+    return data
+  }
+
+  async removeCat(body) {
+    if (!body.id) throw new HttpException("Wrong parameter", 404);
+    let data = {}
+    try {
+      const resp = await this.cats.findByIdAndRemove({ _id: body.id })
+      data['status'] = 0
+      if (resp) {
+        data['message'] = 'Remove successful'
+      } else {
+        data['message'] = 'Failed to remove, id not found'
+      }
+    } catch (error) {
+      data['status'] = 1
+      data['message'] = error
+    }
+    return data
   }
 }
