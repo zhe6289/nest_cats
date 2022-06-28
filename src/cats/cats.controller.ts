@@ -34,6 +34,13 @@ export class CatsController {
     return this.catsService.findAll();
   }
 
+
+  // @Post()
+  // @Roles('admin')
+  // async create(@Body(new ValidationPipe()) createCatDto: CreateCatDto) {
+  //   this.catsService.create(createCatDto);
+  // }
+
   @Get(':id')
   @Roles('admin')
   async findCat( @Response() res, @Param('id') id) {
