@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
-import { DatabaseModule } from '../modules/Shared/MongoDB/mongo.module';
+import { DatabaseModule } from '../Shared/MongoDB/mongo.module';
 import { catsProviders } from './cat.providers';
 
 @Module({

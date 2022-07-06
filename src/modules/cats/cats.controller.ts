@@ -2,9 +2,9 @@ import { Controller, Get, Post, Body, Param, Response, ParseIntPipe, HttpExcepti
 import { CreateCatDto } from './dto/create-cat.dto';
 import { FindCatDto } from './dto/find-cat.dto';
 import { CatsService } from './cats.service';
-import { RolesGuard } from '../modules/Shared/Guards/roles.guard'
-import { Roles } from '../modules/Shared/Decorators/roles.decorator';
-import { LoggingInterceptor } from '../modules/Shared/Interceptors/exception.interceptors';
+import { RolesGuard } from '../Shared/Guards/roles.guard'
+import { Roles } from '../Shared/Decorators/roles.decorator';
+import { LoggingInterceptor } from '../Shared/Interceptors/exception.interceptors';
 import { ApiTags, ApiResponse, ApiCreatedResponse, ApiBody } from '@nestjs/swagger';
 
 @ApiTags('cats')
