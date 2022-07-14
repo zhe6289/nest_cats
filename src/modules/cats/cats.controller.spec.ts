@@ -21,7 +21,7 @@ describe('CatsController', () => {
       const result = [
         { name: 'kitty', age: 2, breed: 'Hello Kitty', id: 1234 }
       ]
-      jest.spyOn(catsService, 'findAll').mockImplementation(() => result);
+      jest.spyOn(catsService, 'findAll').mockImplementation(() => new Promise((resolve, reject) => resolve(result)))
 
       expect(await catsController.findAll()).toBe(result);
     });
